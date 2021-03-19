@@ -1,0 +1,29 @@
+.small-card {
+    display: flex;
+    /* border: 1px solid black; */
+    margin: 20px 0;
+    padding: 9px;
+    background: white;
+    border-radius: 5px;
+}
+
+.small-card img {
+    width: 50px;
+    margin-right: 40px;
+}
+.small-card p{
+    margin: 0px 3px 0px 30px;
+    font-weight: bold;
+}
+.booking-area {
+    background: gainsboro;
+    padding: 10px;
+    border-radius: 5px;
+}
+.area {
+    background: #ff6e40;
+    padding: 10px;
+    color: white;
+    border-radius: 5px;
+    margin-top: 24px;
+}

@@ -1,0 +1,17 @@
+button {
+    display: block;
+    background: #ff6e40;
+    border: none;
+    padding: 5px 0;
+    width: 100%;
+    color: white;
+    font-size: 20px;
+    border-radius: 5px;
+    margin-top: 14px;
+}
+input[type="text"] {
+    width: 100%;
+    border: none;
+    padding: 7px;
+    border-radius: 5px;
+}
