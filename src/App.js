@@ -8,7 +8,9 @@ import {
 import './App.css';
 import Blog from "./components/Blog/Blog";
 import Category from "./components/Category/Category";
+import Contact from "./components/Contact/Contact";
 import Destination from "./components/Destination/Destination";
+import Header from "./components/Header/Header";
 import Home from './components/Home/Home';
 import Login from "./components/Login/Login";
 import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
@@ -21,32 +23,33 @@ function App() {
   return (
     <MyContext.Provider value={[loggedInUser, setLoggedInUser]}>
       <Router>
-        <h5>Email: {loggedInUser.name}</h5>
+
+        <Header />
         <Switch>
 
           <Route path="/home">
             <Home />
           </Route>
 
-          {/* <Route path="/destination">
-            <Destination />
-          </Route> */}
-
-          <Route path="/destination/:category">
-            <Destination />
-          </Route>
-
-          <Route path="/:carDetails">
-            <Category />
-          </Route>
-
           <Route path="/blog">
             <Blog />
+          </Route>
+
+          <Route path="/contact">
+            <Contact />
           </Route>
 
           <Route path="/login">
             <Login />
           </Route>
+
+          <PrivateRoute path="/destination/:category">
+            <Destination />
+          </PrivateRoute>
+
+          <PrivateRoute path="/:carDetails">
+            <Category />
+          </PrivateRoute>
 
           <Route exact path="/">
             <Home />

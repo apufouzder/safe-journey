@@ -13,12 +13,11 @@ const Home = () => {
     }, [])
     return (
         <div className="hero-image" style={{ backgroundImage: `url(${HeroImage})` }}>
-            <Header />
             <div className="container">
                 <div className="container">
-                    <div className="row py-5 mt-5">
+                    <div className="row py-5">
                         {
-                            selectCar.map(cars => <SelectedCar cars={cars}></SelectedCar>)
+                            selectCar.map(cars => <SelectedCar key={cars.id} cars={cars}></SelectedCar>)
 
                         }
                     </div>

@@ -13,7 +13,7 @@ const Destination = () => {
     const { category } = useParams();
     const history = useHistory();
 
-    const handleDetails = () => {
+    const handleBooking = () => {
         history.push(`/${category}`)
     }
 
@@ -25,7 +25,7 @@ const Destination = () => {
 
     return (
         <>
-            <Header />
+
             <Container>
                 <Row>
                     <Col md={4}>
@@ -33,14 +33,21 @@ const Destination = () => {
                             <form>
                                 <label htmlFor="">Pick From</label>
                                 <br />
-                                <input defaultValue="Dhaka" type="text" />
+                                <input className="inputStyle" defaultValue="Dhaka" type="text" />
                                 <br />
                                 <label htmlFor="">Pick To</label>
                                 <br />
-                                <input defaultValue="Khulna" type="text" />
+                                <input className="inputStyle" defaultValue="Khulna" type="text" />
                                 <br />
-                                <button onClick={handleDetails}>Search</button>
+                                <label htmlFor="fromData">From</label><br />
+                                <input type="date" name="" id="fromData" />
+                                <br />
+                                <label htmlFor="toData">To</label><br />
+                                <input type="date" name="" id="toData" />
+                                <br /><br />
+                                <button className="btn-booking" onClick={handleBooking}>Search</button>
                             </form>
+
                             {/* {
                                 carCategory.map(car => <div className="small-card">
                                     <img src={car.img} alt="" />

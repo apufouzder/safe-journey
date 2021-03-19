@@ -1,4 +1,4 @@
-button {
+.btn-booking {
     display: block;
     background: #ff6e40;
     border: none;
@@ -6,12 +6,13 @@ button {
     width: 100%;
     color: white;
     font-size: 20px;
-    border-radius: 5px;
+    border-radius: 5px !important;
     margin-top: 14px;
 }
-input[type="text"] {
+.inputStyle {
     width: 100%;
     border: none;
     padding: 7px;
+    margin-bottom: 10px;
     border-radius: 5px;
 }

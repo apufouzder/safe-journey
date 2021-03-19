@@ -19,11 +19,8 @@ const Category = (props) => {
     console.log('carCategory', carCategory);
 
     return (
-        <div>
-
-            <Header />
+        <>
             <Container>
-                <h2>This is {carDetails}</h2>
                 <Row>
                     <Col md={4}>
                         <div className="booking-area">
@@ -48,7 +45,7 @@ const Category = (props) => {
                     </Col>
                 </Row>
             </Container>
-        </div>
+        </>
     );
 };
 
