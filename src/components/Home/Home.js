@@ -11,6 +11,7 @@ const Home = () => {
     useEffect(() => {
         setSelectCar(carData);
     }, [])
+
     return (
         <div className="hero-image" style={{ backgroundImage: `url(${HeroImage})` }}>
             <div className="container">
@@ -18,7 +19,6 @@ const Home = () => {
                     <div className="row py-5">
                         {
                             selectCar.map(cars => <SelectedCar key={cars.id} cars={cars}></SelectedCar>)
-
                         }
                     </div>
                 </div>

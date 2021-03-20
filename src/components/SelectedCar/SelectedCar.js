@@ -1,12 +1,11 @@
 import React from 'react';
-import { Button, Card, Col } from 'react-bootstrap';
-import { useHistory } from 'react-router';
+import { Card, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import './SelectedCar.css';
 
+
 const SelectedCar = (props) => {
     const { category, name, img } = props.cars;
-
 
     return (
         <>

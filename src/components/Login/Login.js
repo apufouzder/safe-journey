@@ -8,18 +8,14 @@ import { useHistory, useLocation } from 'react-router';
 import Google from '../../images/google.png';
 import { FaFacebook } from 'react-icons/fa';
 
-
-
 !firebase.apps.length && firebase.initializeApp(firebaseConfig);
 
 const Login = () => {
-    const [loggedInUser, setLoggedInUser] = useContext(MyContext);
+    const [loggedInUser, setLoggedInUser, setName] = useContext(MyContext);
     const history = useHistory();
     const location = useLocation();
     let { from } = location.state || { from: { pathname: "/" } };
-
-    const refPassword = useRef();
-    const refConfirmPassword = useRef();
+    const refName = useRef(null);
     const [error, setError] = useState("");
     const [newUser, setNewUser] = useState(false);
     const [user, setUser] = useState({
@@ -33,6 +29,7 @@ const Login = () => {
         success: false
     });
 
+    // handle google LogIn
     const handleGoogleLogIn = () => {
         const GoogleProvider = new firebase.auth.GoogleAuthProvider();
         firebase.auth()
@@ -52,6 +49,7 @@ const Login = () => {
             });
     }
 
+    // handle facebook LogIn 
     const handleFacebookLogIn = () => {
         const fbProvider = new firebase.auth.FacebookAuthProvider();
         firebase.auth()
@@ -71,10 +69,9 @@ const Login = () => {
             });
     }
 
+    // Validation Check
     const handleBlur = (e) => {
         let isFormValid = true;
-
-        console.log(e.target.name, e.target.value);
         if (e.target.name === 'email') {
             isFormValid = /\S+@\S+\.\S+/.test(e.target.value);
         }
@@ -88,40 +85,31 @@ const Login = () => {
             newUserInfo[e.target.name] = e.target.value;
             setUser(newUserInfo);
         }
-        // if (refPassword.current.value !== refConfirmPassword.current.value) {
-        //     return setError("password not match");
-        // } else {
-        //     console.log(error);
-        //     setError("");
-        // }
     }
 
-
-
+    // Handle submit form
     const handleSubmit = (e) => {
-
         if (newUser && user.email && user.password === user.confirmPassword) {
-
             firebase.auth().createUserWithEmailAndPassword(user.email, user.password)
                 .then(res => {
+                    setName(refName.current.value);
                     const { displayName, email } = res.user;
-                    const singInUser = { name: displayName, email, }
+                    const singInUser = { name: displayName, email }
                     setLoggedInUser(singInUser);
                     history.replace(from);
                     const newUserInfo = { ...user };
                     newUserInfo.error = '';
                     newUserInfo.success = true;
                     setUser(newUserInfo);
+                    console.log(res);
+                    console.log(user.name);
                     updateUserProfile(user.name);
-
-                    console.log('user singUp', singInUser);
                 })
                 .catch(error => {
                     const newUserInfo = { ...user };
                     newUserInfo.error = error.message;
                     newUserInfo.success = false;
                     setUser(newUserInfo);
-
                     console.log('error up', error);
                 });
 
@@ -140,16 +128,16 @@ const Login = () => {
                     newUserInfo.error = '';
                     newUserInfo.success = true;
                     setUser(newUserInfo);
+                    console.log(singInUser.name);
+                    console.log(singInUser);
+                    console.log(user.name);
                     updateUserProfile(user.name);
-
-                    console.log('user logIn', singInUser);
                 })
                 .catch(error => {
                     const newUserInfo = { ...user };
                     newUserInfo.error = error.message;
                     newUserInfo.success = false;
                     setUser(newUserInfo);
-
                     console.log('error logIn', error);
                 });
             setError("");
@@ -173,12 +161,14 @@ const Login = () => {
 
     return (
         <>
-            <h1>This is LogIn page: {loggedInUser.name}</h1>
-
-            <form className="form-style shadow" onSubmit={handleSubmit}>
-                {/* <input type="checkbox" onChange={() => setNewUser(!newUser)} name="newUser" /> */}
+            <form className="form-style shadow mt-5" onSubmit={handleSubmit}>
                 <p style={{ color: 'red' }}>{user.error}</p>
-                {user.success && <p style={{ color: 'green' }}>You {newUser ? 'Sing Up' : 'Logged In'} successfully!</p>}
+
+                {user.success &&
+                    <p style={{ color: 'green' }}>
+                        You {newUser ? 'Sing Up' : 'Logged In'} successfully!
+                </p>}
+
                 <h5>{newUser ? 'Create an account' : 'Login'}</h5>
                 <br />
                 {
@@ -186,6 +176,7 @@ const Login = () => {
                         type="text"
                         name="name"
                         placeholder="Name"
+                        ref={refName}
                         className="form-control"
                     />
                 }
@@ -198,13 +189,11 @@ const Login = () => {
                     className="form-control"
                     required />
                 <br />
-
                 <input
                     type="password"
                     onChange={handleBlur}
                     name="password"
                     placeholder="Password"
-                    ref={refPassword}
                     className="form-control"
                     required />
                 <br />
@@ -213,13 +202,11 @@ const Login = () => {
                         type="password"
                         onChange={handleBlur} name="confirmPassword"
                         placeholder="Confirm Password"
-                        ref={refConfirmPassword}
                         className="form-control"
                         required
                     />
                 }
                 <p style={{ color: 'red' }}>{error}</p>
-
                 <input
                     className="submitBtn"
                     type="submit"
@@ -227,11 +214,13 @@ const Login = () => {
                         ? 'Create an account'
                         : 'Login'}
                 />
+
                 <hr />
                 <p className="text-center">
                     {newUser
                         ? "Already have an account"
-                        : "Don't have an account?"}
+                        : "Don't have an account?"
+                    }
 
                     <a href="/"
                         className="text-decoration-none"
@@ -245,7 +234,7 @@ const Login = () => {
                 </p>
 
 
-                <div className="google">
+                <div>
                     <button
                         className="googleBtn"
                         onClick={handleGoogleLogIn}>

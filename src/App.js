@@ -15,15 +15,15 @@ import Home from './components/Home/Home';
 import Login from "./components/Login/Login";
 import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
 
-
 export const MyContext = createContext();
 
 function App() {
   const [loggedInUser, setLoggedInUser] = useState({});
-  return (
-    <MyContext.Provider value={[loggedInUser, setLoggedInUser]}>
-      <Router>
+  const [name, setName] = useState("");
 
+  return (
+    <MyContext.Provider value={[loggedInUser, setLoggedInUser, setName, name]}>
+      <Router>
         <Header />
         <Switch>
 
@@ -58,6 +58,7 @@ function App() {
           <Route path="*">
             <h1>Page Not Found 404!!</h1>
           </Route>
+
         </Switch>
       </Router>
     </MyContext.Provider>

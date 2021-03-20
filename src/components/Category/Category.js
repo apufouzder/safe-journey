@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import { useParams } from 'react-router';
-import Header from '../Header/Header';
 import Map from '../../images/Map.png';
 import carDetailsData from '../../carDetailsData';
 import './Category.css';
@@ -16,7 +15,6 @@ const Category = (props) => {
     useEffect(() => {
         setCarCategory(carDetailsData.filter(car => car.category === carDetails));
     }, [carDetails])
-    console.log('carCategory', carCategory);
 
     return (
         <>
