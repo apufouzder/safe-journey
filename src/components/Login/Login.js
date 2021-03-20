@@ -1,12 +1,14 @@
 import React, { useContext, useRef, useState } from 'react';
-import Header from '../Header/Header';
 import './Login.css';
 import firebase from "firebase/app";
 import "firebase/auth";
 import firebaseConfig from './firebase.config';
 import { MyContext } from '../../App';
 import { useHistory, useLocation } from 'react-router';
-import { FaGoogle } from 'react-icons/fa';
+import Google from '../../images/google.png';
+import { FaFacebook } from 'react-icons/fa';
+
+
 
 !firebase.apps.length && firebase.initializeApp(firebaseConfig);
 
@@ -16,8 +18,23 @@ const Login = () => {
     const location = useLocation();
     let { from } = location.state || { from: { pathname: "/" } };
 
-    const handleGoogleSingIn = () => {
-        var GoogleProvider = new firebase.auth.GoogleAuthProvider();
+    const refPassword = useRef();
+    const refConfirmPassword = useRef();
+    const [error, setError] = useState("");
+    const [newUser, setNewUser] = useState(false);
+    const [user, setUser] = useState({
+        newUser: false,
+        isSingIn: false,
+        name: '',
+        email: '',
+        password: '',
+        error: '',
+        confirmPassword: '',
+        success: false
+    });
+
+    const handleGoogleLogIn = () => {
+        const GoogleProvider = new firebase.auth.GoogleAuthProvider();
         firebase.auth()
             .signInWithPopup(GoogleProvider)
             .then((result) => {
@@ -35,20 +52,24 @@ const Login = () => {
             });
     }
 
-
-    const refPassword = useRef();
-    const refConfirmPassword = useRef();
-    const [error, setError] = useState("");
-    const [newUser, setNewUser] = useState(false);
-    const [user, setUser] = useState({
-        newUser: false,
-        name: '',
-        email: '',
-        password: '',
-        error: '',
-        confirmPassword: '',
-        success: false
-    });
+    const handleFacebookLogIn = () => {
+        const fbProvider = new firebase.auth.FacebookAuthProvider();
+        firebase.auth()
+            .signInWithPopup(fbProvider)
+            .then((result) => {
+                var { displayName, email } = result.user;
+                const singInUser = { name: displayName, email }
+                setLoggedInUser(singInUser);
+                history.replace(from);
+                console.log(singInUser);
+            })
+            .catch((error) => {
+                var errorCode = error.code;
+                var errorMessage = error.message;
+                var credential = error.credential;
+                console.log(errorCode, errorMessage, credential);
+            });
+    }
 
     const handleBlur = (e) => {
         let isFormValid = true;
@@ -75,14 +96,15 @@ const Login = () => {
         // }
     }
 
+
+
     const handleSubmit = (e) => {
-        // console.log(user.email, user.password);
 
-        if (user.email && user.password) {
+        if (newUser && user.email && user.password === user.confirmPassword) {
 
-            firebase.auth().createUserWithEmailAndPassword(user.email, user.password, user.name)
+            firebase.auth().createUserWithEmailAndPassword(user.email, user.password)
                 .then(res => {
-                    var { displayName, email } = res.user;
+                    const { displayName, email } = res.user;
                     const singInUser = { name: displayName, email, }
                     setLoggedInUser(singInUser);
                     history.replace(from);
@@ -102,12 +124,15 @@ const Login = () => {
 
                     console.log('error up', error);
                 });
-            e.preventDefault();
+
+        } else {
+            setError("Password doesn't match!");
         }
+
         if (!newUser && user.email && user.password) {
             firebase.auth().signInWithEmailAndPassword(user.email, user.password)
                 .then(res => {
-                    var { displayName, email } = res.user;
+                    const { displayName, email } = res.user;
                     const singInUser = { name: displayName, email }
                     setLoggedInUser(singInUser);
                     history.replace(from);
@@ -119,27 +144,28 @@ const Login = () => {
 
                     console.log('user logIn', singInUser);
                 })
-                .catch((error) => {
+                .catch(error => {
                     const newUserInfo = { ...user };
                     newUserInfo.error = error.message;
                     newUserInfo.success = false;
                     setUser(newUserInfo);
-                    setError()
+
                     console.log('error logIn', error);
                 });
-            e.preventDefault();
+            setError("");
         }
-
+        e.preventDefault();
     }
 
+
     const updateUserProfile = name => {
-        var user = firebase.auth().currentUser;
+        const user = firebase.auth().currentUser;
 
         user.updateProfile({
             displayName: name
         }).then(res => {
             console.log('update success', res);
-        }).catch(function (error) {
+        }).catch(error => {
             console.log(error);
         });
     }
@@ -147,20 +173,18 @@ const Login = () => {
 
     return (
         <>
-
             <h1>This is LogIn page: {loggedInUser.name}</h1>
 
             <form className="form-style shadow" onSubmit={handleSubmit}>
                 {/* <input type="checkbox" onChange={() => setNewUser(!newUser)} name="newUser" /> */}
                 <p style={{ color: 'red' }}>{user.error}</p>
                 {user.success && <p style={{ color: 'green' }}>You {newUser ? 'Sing Up' : 'Logged In'} successfully!</p>}
-                <label htmlFor="">New User Sing Up</label>
+                <h5>{newUser ? 'Create an account' : 'Login'}</h5>
                 <br />
                 {
                     newUser && <input
                         type="text"
                         name="name"
-
                         placeholder="Name"
                         className="form-control"
                     />
@@ -171,7 +195,6 @@ const Login = () => {
                     onChange={handleBlur}
                     name="email"
                     placeholder="Email"
-
                     className="form-control"
                     required />
                 <br />
@@ -201,14 +224,14 @@ const Login = () => {
                     className="submitBtn"
                     type="submit"
                     value={newUser
-                        ? 'Sing Up'
-                        : 'Sing In'}
+                        ? 'Create an account'
+                        : 'Login'}
                 />
                 <hr />
                 <p className="text-center">
                     {newUser
                         ? "Already have an account"
-                        : "Don't have an account"}
+                        : "Don't have an account?"}
 
                     <a href="/"
                         className="text-decoration-none"
@@ -217,13 +240,28 @@ const Login = () => {
                             setNewUser(!newUser)
                         }}
                     >
-                        {newUser ? ' Sing In' : ' Sing Up'}
+                        {newUser ? ' Login' : ' Create an account'}
                     </a>
                 </p>
-                <span></span>or<span></span>
+
 
                 <div className="google">
-                    <button className="googleBtn" onClick={handleGoogleSingIn}><span><img src="https://i.pinimg.com/originals/39/21/6d/39216d73519bca962bd4a01f3e8f4a4b.png" alt="" /></span> Google Sing In</button>
+                    <button
+                        className="googleBtn"
+                        onClick={handleGoogleLogIn}>
+                        <span>
+                            <img src={Google} alt="" />
+                        </span>
+                    Continue with Google
+                    </button>
+                    <button
+                        className="googleBtn"
+                        onClick={handleFacebookLogIn}>
+                        <span className="facebook">
+                            <FaFacebook />
+                        </span>
+                    Continue with Facebook
+                    </button>
                 </div>
             </form>
 

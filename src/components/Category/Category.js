@@ -21,8 +21,8 @@ const Category = (props) => {
     return (
         <>
             <Container>
-                <Row>
-                    <Col md={4}>
+                <Row className="py-5">
+                    <Col md={4} className="mb-5">
                         <div className="booking-area">
                             <div className="area">
                                 <h6>Dhaka</h6>

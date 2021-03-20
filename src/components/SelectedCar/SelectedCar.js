@@ -11,7 +11,7 @@ const SelectedCar = (props) => {
     return (
         <>
             <Col md={3} className="custom-style">
-                <Card className="custom-card">
+                <Card className="custom-card shadow mb-3">
                     <Link to={`/destination/${category}`}>
                         <Card.Img variant="top" src={img} />
                     </Link>

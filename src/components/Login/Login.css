@@ -7,12 +7,14 @@
     border-radius: 5px;
 }
 .googleBtn {
-    padding: 1px;
     width: 100%;
-    border-radius: 5px;
+    border-radius: 25px;
     border: 1px solid gray;
     background: white;
-    font-size: 25px;
+    font-size: 17px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
 }
 .submitBtn {
     background: gold;
@@ -22,8 +24,17 @@
     border-radius: 5px;
     font-size: 20px;
 }
+span.facebook {
+    color: #0b6de6;
+    font-size: 26px;
+    margin-right: 71px;
+    display: flex;
+    align-items: center;
+    padding: 5px 0;
+}
 span img {
-    width: 44px;
+    width: 35px;
+    margin-right: 60px;
 }
 span {
     float: left;

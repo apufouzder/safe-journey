@@ -27,8 +27,8 @@ const Destination = () => {
         <>
 
             <Container>
-                <Row>
-                    <Col md={4}>
+                <Row className="py-5">
+                    <Col md={4} className="mb-5">
                         <div className="booking-area">
                             <form>
                                 <label htmlFor="">Pick From</label>
