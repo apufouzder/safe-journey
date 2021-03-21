@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import { useParams } from 'react-router';
-import Map from '../../images/Map.png';
 import carDetailsData from '../../carDetailsData';
 import './Category.css';
 import { FaUserFriends } from 'react-icons/fa';
-
+import Map from '../../components/Map/Map';
+import Footer from '../../components/Footer/Footer';
 
 const Category = (props) => {
     console.log('props', props);
@@ -23,8 +23,9 @@ const Category = (props) => {
                     <Col md={4} className="mb-5">
                         <div className="booking-area">
                             <div className="area">
-                                <h6>Dhaka</h6>
-                                <h6>Khulna</h6>
+                                <h5>Dhaka</h5>
+                                <br />
+                                <h5>Khulna</h5>
                             </div>
                             {
                                 carCategory.map(car => <div className="small-card">
@@ -39,10 +40,12 @@ const Category = (props) => {
 
                     </Col>
                     <Col md={8}>
-                        <img src={Map} alt="" />
+                        {/* <img src={Map} alt="" /> */}
+                        <Map />
                     </Col>
                 </Row>
             </Container>
+            <Footer />
         </>
     );
 };

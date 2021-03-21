@@ -7,6 +7,7 @@ import { MyContext } from '../../App';
 import { useHistory, useLocation } from 'react-router';
 import Google from '../../images/google.png';
 import { FaFacebook } from 'react-icons/fa';
+import Footer from '../Footer/Footer';
 
 !firebase.apps.length && firebase.initializeApp(firebaseConfig);
 
@@ -29,9 +30,11 @@ const Login = () => {
         success: false
     });
 
+    const GoogleProvider = new firebase.auth.GoogleAuthProvider();
+    const fbProvider = new firebase.auth.FacebookAuthProvider();
+
     // handle google LogIn
     const handleGoogleLogIn = () => {
-        const GoogleProvider = new firebase.auth.GoogleAuthProvider();
         firebase.auth()
             .signInWithPopup(GoogleProvider)
             .then((result) => {
@@ -51,7 +54,6 @@ const Login = () => {
 
     // handle facebook LogIn 
     const handleFacebookLogIn = () => {
-        const fbProvider = new firebase.auth.FacebookAuthProvider();
         firebase.auth()
             .signInWithPopup(fbProvider)
             .then((result) => {
@@ -161,7 +163,7 @@ const Login = () => {
 
     return (
         <>
-            <form className="form-style shadow mt-5" onSubmit={handleSubmit}>
+            <form className="form-style shadow mt-5 mb-5" onSubmit={handleSubmit}>
                 <p style={{ color: 'red' }}>{user.error}</p>
 
                 {user.success &&
@@ -253,7 +255,7 @@ const Login = () => {
                     </button>
                 </div>
             </form>
-
+            <Footer />
         </>
     );
 };

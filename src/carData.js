@@ -2,7 +2,7 @@ const carData = [
     {
         "id": 1,
         "name": "BIKE",
-        "price": 55,
+        "price": 50,
         "location1": "mirpur",
         "location2": "dhanmondi",
         "people": 4,
@@ -12,7 +12,7 @@ const carData = [
     {
         "id": 2,
         "name": "CAR",
-        "price": 55,
+        "price": 60,
         "people": 4,
         "img": "https://i.ibb.co/gT5BL8C/Frame-2.png",
         "category": "car"
@@ -20,7 +20,7 @@ const carData = [
     {
         "id": 3,
         "name": "BUS",
-        "price": 55,
+        "price": 70,
         "people": 4,
         "img": "https://i.ibb.co/y8qMJK7/Frame-1.png",
         "category": "bus"
@@ -28,7 +28,7 @@ const carData = [
     {
         "id": 4,
         "name": "TRAIN",
-        "price": 55,
+        "price": 90,
         "people": 4,
         "img": "https://i.ibb.co/gmQHTnB/Group.png",
         "category": "train"

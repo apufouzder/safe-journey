@@ -1,9 +1,11 @@
 import React, { useContext } from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
-import Map from '../../images/Map.png'
+import MapImg from '../../images/Map.png'
 import './Destination.css';
 import { useHistory, useParams } from 'react-router';
 import { MyContext } from '../../App';
+import Map from '../../components/Map/Map';
+import Footer from '../Footer/Footer';
 
 
 const Destination = () => {
@@ -41,10 +43,12 @@ const Destination = () => {
                         </div>}
                     </Col>
                     <Col md={8}>
-                        <img src={Map} alt="" />
+                        {/* <img src={Map} alt="" /> */}
+                        <Map />
                     </Col>
                 </Row>
             </Container>
+            <Footer />
         </>
     );
 };

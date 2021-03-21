@@ -4,6 +4,7 @@ import HeroImage from '../../images/HeroImage.png';
 import SelectedCar from '../SelectedCar/SelectedCar';
 import carData from '../../carData';
 import './Home.css';
+import Footer from '../Footer/Footer';
 
 const Home = () => {
     const [selectCar, setSelectCar] = useState([]);
@@ -13,17 +14,20 @@ const Home = () => {
     }, [])
 
     return (
-        <div className="hero-image" style={{ backgroundImage: `url(${HeroImage})` }}>
-            <div className="container">
+        <>
+            <div className="hero-image" style={{ backgroundImage: `url(${HeroImage})` }}>
                 <div className="container">
-                    <div className="row py-5">
-                        {
-                            selectCar.map(cars => <SelectedCar key={cars.id} cars={cars}></SelectedCar>)
-                        }
+                    <div className="container">
+                        <div className="row py-5">
+                            {
+                                selectCar.map(cars => <SelectedCar key={cars.id} cars={cars}></SelectedCar>)
+                            }
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+            <Footer />
+        </>
     );
 };
 
